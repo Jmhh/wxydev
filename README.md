@@ -21,7 +21,7 @@ npm run build --report
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 ## API接口管理
-http://192.168.0.10:3000
+http://192.168.0.153:3000/
 
 ## Git
 ``` bash
