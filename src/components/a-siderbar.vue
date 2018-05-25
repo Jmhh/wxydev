@@ -21,18 +21,18 @@ export default {
         return {
             items: [
                 {
-                    href: "index",
-                    icon: "iconfont icon-shouye",
+                    href: "/",
+                    icon: "iconfont icon-daohang-shouye",
                     name: "首页"
                 },
                 {
                     href: "school",
-                    icon: "iconfont icon-tubiaozhizuomoban-",
+                    icon: "iconfont icon-daohang-xuexiao",
                     name: "学校"
                 },
                 {
                     href: "admin",
-                    icon: "iconfont icon-guanliyuan",
+                    icon: "iconfont icon-daohang-guanli",
                     name: "管理"
                 }
             ]

@@ -1,4 +1,5 @@
 import Http from 'utils/http'
+import encryptAES from 'utils/encrypt'
 
 const getUserInfo = (that) => {
   Http({
@@ -14,21 +15,69 @@ const getUserInfo = (that) => {
   });
 };
 
+//获取验证码
+const getCaptcha = (that) => {
+  Http({
+    method: 'get',
+    url: 'captcha/base64',
+  },(response) => {
+    const data = response.data.data;
+    that.base64Url = data.base64;
+    that.form.key = data.key;
+    that.$store.commit("SET_LOGIN_CAPTCHA",data.base64);
+    that.$store.commit("SET_LOGIN_KEY",data.key);
+    
+  }, (error) => {
+    console.log(error);
+  })
+};
+
+//更新验证码
+const updateGetcaptcha = (that) =>{
+  Http({
+    method: 'get',
+    url: 'captcha/base64',
+  },(response) => {
+    const data = response.data.data;
+    that.base64Url = data.base64;
+    that.form.key = data.key;
+    that.$store.dispatch("updateLoginCaptcha",data.base64);
+    that.$store.dispatch("updateLoginKey",data.key);
+  }, (error) => {
+    console.log(error);
+  })
+}
+
 //登录
-const userLogin = (data) =>{
+const getUserLogin = (data,that) =>{
    Http({
       method: 'post',
-      url: 'mock/9/user/login',
+      url: 'login',
+      params: data,
     }, (response) => {
-      res = response.data;
-      console.log(res);
+      that.$store.commit("SET_LOGIN_TOKEN",response.data.data.token);
+      that.$store.commit("SET_USER_LOGIN");
+      that.$notify.success({
+        title: '登录成功',
+        message: '正在为你跳转页面',
+      });
+      that.loginStatus = "登录成功";
+      that.$router.push('/');
     }, (error) => {
-      console.log(error);
+      const err = error.response.data;
+      that.loginStatus = "登录";
+      console.log(err.message);
+      that.$notify.error({
+        title: '登录失败',
+        message: err.message,
+      });
     });
 };
 
 
 export {
   getUserInfo,
-  userLogin,
+  getUserLogin,
+  getCaptcha,
+  updateGetcaptcha,
 }

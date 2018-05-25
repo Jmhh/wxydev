@@ -2,7 +2,6 @@ import Store from 'store'
 import Axios from 'axios'
 import {apiUrl} from 'config/index'
 
-
 const qs = require('qs');
 const instance = Axios.create({
   baseURL: apiUrl,

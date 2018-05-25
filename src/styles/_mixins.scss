@@ -1,11 +1,12 @@
 
 //按钮
-@mixin button($w:128px, $h:47px, $color:#fff, $bgcolor:#4890ea, $radius:5px) {
+@mixin button($w, $h, $fontSize, $color:#fff, $bgcolor:#4890ea, $radius:5px) {
   display: inline-block;
   width: $w;
   height: $h;
   text-align: center;
   line-height: 1;
+  font-size: $fontSize;
   cursor: pointer;
   color: $color;
   background-color: $bgcolor;
@@ -25,6 +26,7 @@
     display: inline-block;
     cursor: pointer;
   }
+
 
 //登录页loading
 @mixin loading-img{
