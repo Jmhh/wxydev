@@ -1,4 +1,5 @@
 import Http from 'utils/http'
+import { mapMutations,mapActions  } from 'vuex'
 import encryptAES from 'utils/encrypt'
 
 const getUserInfo = (that) => {

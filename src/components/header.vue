@@ -57,6 +57,7 @@ export default {
             margin-left: 26px;
             text-decoration: none;
             color: #7A8FB8;
+            font-size: 16px;
         }
         span{
             margin-left: 27px;

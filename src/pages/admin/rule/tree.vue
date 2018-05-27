@@ -1,25 +1,27 @@
 <template>
-    <div class="containers">
-      <div class="top">
-        <div class="menu">菜单</div>
-        <div class="add">添加一级规则</div>
-        <div class="remove">删除已选</div>
+    <div class="tree—containers">
+      <div class="tree—top">
+        <div class="tree—menu">菜单</div>
+        <div class="tree—add">添加一级规则</div>
+        <div class="tree—remove">删除已选</div>
       </div>
-      <el-tree
-        :data="arr"
-        node-key="id"
-        :default-expand-all="false"
-        show-checkbox
-        @node-drag-start="handleDragStart"
-        @node-drag-enter="handleDragEnter"
-        @node-drag-leave="handleDragLeave"
-        @node-drag-over="handleDragOver"
-        @node-drag-end="handleDragEnd"
-        @node-drop="handleDrop"
-        draggable
-        :allow-drop="allowDrop"
-        :allow-drag="allowDrag">
-    </el-tree>
+      <div class="tree—menu-bar">
+        <el-tree
+          :data="arr"
+          node-key="id"
+          :default-expand-all="false"
+          show-checkbox
+          @node-drag-start="handleDragStart"
+          @node-drag-enter="handleDragEnter"
+          @node-drag-leave="handleDragLeave"
+          @node-drag-over="handleDragOver"
+          @node-drag-end="handleDragEnd"
+          @node-drop="handleDrop"
+          draggable
+          :allow-drop="allowDrop"
+          :allow-drag="allowDrag">
+        </el-tree>
+      </div>
     </div>
 </template>
 
@@ -61,19 +63,20 @@ export default {
 };
 </script>
 <style scoped>
-.containers {
+.tree—containers {
   width: 100%;
   box-sizing: border-box;
   padding-top: 20px;
   padding-left: 20px;
+  flex: 1;
 }
-.top {
+.tree—top {
   display: flex;
   height: 26px;
   background-color: #fff;
   margin-bottom: 20px;
 }
-.menu {
+.tree—menu {
   width: 36px;
   height: 26px;
   font-size: 18px;
@@ -83,7 +86,7 @@ export default {
   margin-left: 8px;
   cursor: pointer;
 }
-.add {
+.tree—add {
   width: 150px;
   height: 26px;
   background: rgba(119, 134, 147, 1);
@@ -93,7 +96,32 @@ export default {
   margin-left: 37px;
   cursor: pointer;
 }
-.remove {
+.tree—menu-bar {
+  height: 368px;
+  overflow-y: auto;
+}
+.tree—menu-bar::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 4px;
+  /*高宽分别对应横竖滚动条的尺寸*/
+  height: 4px;
+  background-color: #f5f5f5;
+}
+
+.tree—menu-bar::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 5px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.tree—menu-bar::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
+.tree—remove {
   width: 121px;
   height: 26px;
   background: rgba(197, 201, 212, 1);

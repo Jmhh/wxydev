@@ -5,19 +5,21 @@ import Actions from './actions'
 import Mutations from './mutations'
 
 import User from './modules/user'
+import Admin from './modules/admin'
 
 Vue.use(Vuex)
 
 const state = {
-  login: false
+    login: false
 }
 
 export default new Vuex.Store({
-  state,
-  getters: Getters,
-  actions: Actions,
-  mutations: Mutations,
-  modules: {
-    user: User
-  }
+    state,
+    getters: Getters,
+    actions: Actions,
+    mutations: Mutations,
+    modules: {
+        user: User,
+        admin: Admin
+    }
 })

@@ -10,16 +10,15 @@ const page = (dir) => {
 
 export default new Router({
     linkActiveClass: 'active',
-    routes: [
+    routes: [{
+            path: '/',
+            name: '首页',
+            component: page('index/admin')
+        },
         {
             path: '/login',
             name: '登录',
             component: page('user/login')
-        },
-        {
-            path: '/',
-            name: '首页',
-            component: page('index/admin')
         },
         {
             path: '/school',

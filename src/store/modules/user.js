@@ -2,9 +2,10 @@ import * as Types from "../mutation-types";
 
 const state = {
   login: false,
-  token: "", //用户token
-  loginCaptcha: "", //验证码
-  loginKey: "" //key,由验证码接口获取
+  count: 0,
+  token: "",
+  loginCaptcha: "",
+  loginKey: ""
 };
 
 const getters = {
@@ -49,7 +50,7 @@ const mutations = {
     state.count++;
   },
 
-  //设置验证码
+  //初始化验证码
   [Types.SET_LOGIN_CAPTCHA](state, data) {
     state.loginCaptcha = data;
   },
@@ -59,24 +60,19 @@ const mutations = {
     state.loginCaptcha = data;
   },
 
-  //设置key
+  //初始化验证码key
   [Types.SET_LOGIN_KEY](state, data) {
     state.loginKey = data;
   },
 
-  //更新key
+  //更新验证码key
   [Types.UPDATE_LOGIN_KEY](state, data) {
     state.loginKey = data;
   },
 
-  //设置token
+  //初始化token
   [Types.SET_LOGIN_TOKEN](state, data) {
     state.token = data;
-  },
-
-  //设置login
-  [Types.SET_USER_LOGIN](state) {
-    state.login = true;
   },
 
 };

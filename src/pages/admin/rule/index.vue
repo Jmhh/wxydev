@@ -1,16 +1,16 @@
 <template>
-    <div class="container">
-      <div class="left">
+    <div class="rule—container">
+      <div class="rule—left">
         <tree :arr='filter'></tree>
       </div>
-      <div class="right">
-
-      </div>
+      <Detail></Detail>
     </div>
 </template>
 
 <script>
-import tree from "./tree";
+import { mapState,mapActions } from "vuex";
+import Tree from "./tree";
+import Detail from "./detail-rule";
 export default {
   data() {
     return {
@@ -315,8 +315,10 @@ export default {
     };
   },
   computed: {
+    ...mapState(["menu"]),
     //数据过滤处理
     filter() {
+      console.log(this.$store.state.admin.menu)
       let data = this.arr;
       data.forEach(item => {
         delete item.children;
@@ -339,57 +341,33 @@ export default {
     }
   },
   components: {
-    tree
+    Tree,
+    Detail
   },
   methods: {
-    handleDragStart(node, ev) {
-      console.log("drag start", node);
-    },
-    handleDragEnter(draggingNode, dropNode, ev) {
-      console.log("tree drag enter: ", dropNode.label);
-    },
-    handleDragLeave(draggingNode, dropNode, ev) {
-      console.log("tree drag leave: ", dropNode.label);
-    },
-    handleDragOver(draggingNode, dropNode, ev) {
-      console.log("tree drag over: ", dropNode.label);
-    },
-    handleDragEnd(draggingNode, dropNode, dropType, ev) {
-      console.log("tree drag end: ", dropNode && dropNode.label, dropType);
-    },
-    handleDrop(draggingNode, dropNode, dropType, ev) {
-      console.log("tree drop: ", dropNode.label, dropType);
-    },
-    allowDrop(draggingNode, dropNode, type) {
-      if (dropNode.data.label === "二级 3-1") {
-        return type !== "inner";
-      } else {
-        return true;
-      }
-    },
-    allowDrag(draggingNode) {
-      return draggingNode.data.label.indexOf("三级 3-1-1") === -1;
-    }
-  }
+    ...mapActions(["hideloader"]),
+  },
+  created() {
+    this.hideloader()
+  },
 };
 </script>
 
 <style scoped>
-.container {
+.rule—container {
   display: flex;
   background-color: #fff;
-}
-.left {
-  width: 449px;
-  height: 530px;
   border: 2px solid #EDF0F5;
-  background: rgba(255, 255, 255, 1);
-  border-radius: 8px;
+  border-top: 0;
 }
-.right {
-  width: 717px;
+.rule—left {
   height: 530px;
+  border: 2px solid #edf0f5;
   background: rgba(255, 255, 255, 1);
   border-radius: 8px;
+  margin-top: 26px;
+  margin-left: 26px;
+  display: flex;
+  flex: 1;
 }
 </style>

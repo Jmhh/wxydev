@@ -1,32 +1,32 @@
 <template>
-    <div class="account_container">
-       <div class="account_function">
-            <addAccount></addAccount>
-            <input type="text" placeholder="搜索账户、姓名"  class="account_name">
-            <div class="account_button">
-                <span class="account_btnfunct account_search" @click="handleClick('搜索')" :class="{account_isBack:isBackground==='搜索'}">搜索</span>
-                <span class="account_btnfunct account_clear" @click="handleClick('清空')" :class="{account_isBack:isBackground==='清空'}">清空</span>
+    <div class="account—container">
+       <div class="account—function">
+            <account></account>
+            <input type="text" placeholder="搜索账户、姓名"  class="account—name">
+            <div class="account—button">
+                <span class="account—btnfunct account—search" @click="handleClick('搜索')" :class="{account_isBack:isBackground==='搜索'}">搜索</span>
+                <span class="account—btnfunct account—clear" @click="handleClick('清空')" :class="{account_isBack:isBackground==='清空'}">清空</span>
             </div>
        </div>
-       <div class="account_data">
-           <div class="account_title">
-               <span class="account_span" v-for="(item, index) in title" :key='index'>{{item}}</span>
+       <div class="account—data">
+           <div class="account—title">
+               <span class="account—span" v-for="(item, index) in title" :key='index'>{{item}}</span>
             </div>
-           <div class="account_content" v-for="(item, index) in data" :key='index'>
-               <span class="account_span">{{item.id}}</span>
-               <span class="account_span">{{item.name}}</span>
-               <span class="account_span">{{item.sex}}</span>
-               <span class="account_span">{{item.grouping}}</span>
-               <span class="account_span">{{item.landTime}}</span>
-               <span class="account_span">{{item.cleaterTime}}</span>
-               <span class="account_span">{{item.operation}}</span>
+           <div class="account—content" v-for="(item, index) in data" :key='index'>
+               <span class="account—span">{{item.id}}</span>
+               <span class="account—span">{{item.name}}</span>
+               <span class="account—span">{{item.sex}}</span>
+               <span class="account—span">{{item.grouping}}</span>
+               <span class="account—span">{{item.landTime}}</span>
+               <span class="account—span">{{item.cleaterTime}}</span>
+               <span class="account—span">{{item.operation}}</span>
            </div>
        </div>
     </div>
 </template>
 
 <script>
-import addAccount from "../../../components/addAccount";
+import account from "../../../components/account/account.vue";
 export default {
   data() {
     return {
@@ -96,24 +96,24 @@ export default {
     }
   },
   components: {
-    addAccount
+    account
   }
 };
 </script>
 
 <style scoped>
-.account_container {
+.account—container {
   background-color: #fff;
   padding-left: 28px;
 }
-.account_function {
+.account—function {
   display: flex;
   align-items: center;
   width: 538px;
   height: 28px;
   padding-top: 28px;
 }
-.account_name {
+.account—name {
   width: 211px;
   height: 21px;
   background: rgba(255, 255, 255, 1);
@@ -122,14 +122,14 @@ export default {
   margin: 0 33px;
   padding-left: 10px;
 }
-.account_button {
+.account—button {
   display: flex;
   width: 138px;
   height: 28px;
   align-items: center;
   justify-content: center;
 }
-.account_btnfunct {
+.account—btnfunct {
   width: 69px;
   height: 28px;
   background: rgba(255, 255, 255, 1);
@@ -139,31 +139,31 @@ export default {
   border: 1px solid #62d862;
   cursor: pointer;
 }
-.account_search {
+.account—search {
   border-radius: 25px 0px 0 25px;
 }
-.account_clear {
+.account—clear {
   border-radius: 0px 25px 25px 0;
 }
 .account_isBack {
   background-color: #62d862;
   color: #fff;
 }
-.account_data {
+.account—data {
   width: 100%;
   margin-top: 26px;
 }
-.account_title {
+.account—title {
   width: 100%;
   height: 65px;
   display: flex;
   background-color: #e3e9f0;
 }
-.account_content {
+.account—content {
   width: 100%;
   display: flex;
 }
-.account_span {
+.account—span {
   height: 65px;
   flex: 1px;
   box-sizing: border-box;
@@ -172,7 +172,7 @@ export default {
   border-left: 2px solid #f5f6f8;
   border-bottom: 2px solid #f5f6f8;
 }
-.account_span:nth-last-child(1) {
+.account—span:nth-last-child(1) {
   border-right: 2px solid #f5f6f8;
 }
 </style>

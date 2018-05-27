@@ -1,15 +1,13 @@
 <template>
-    <div class="container">我是js组件</div>
+    <div class="grouping—container">我是js组件</div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style scoped>
-    .container{
-        background-color: #fff;
-    }
+.grouping—container {
+  background-color: #fff;
+}
 </style>
