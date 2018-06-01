@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-
 Vue.use(Router)
 
 const page = (dir) => {
@@ -9,11 +7,11 @@ const page = (dir) => {
 };
 
 export default new Router({
+    mode: 'history',
     linkActiveClass: 'active',
     routes: [{
             path: '/',
-            name: '首页',
-            component: page('index/admin')
+            redirect: '/login',
         },
         {
             path: '/login',
@@ -21,15 +19,31 @@ export default new Router({
             component: page('user/login')
         },
         {
+            path: '/index',
+            name: '首页',
+            component: page('index/admin')
+        },
+        {
             path: '/school',
             name: '学校',
-            component: page('school/index')
+            component: page('school/index'),
+            children: [{
+                path: '',
+                component: page('school/schools'),
+            }, {
+                path: '/school/pages/:id',
+                name: '学校内页',
+                component: page('school/pages'),
+            }]
         },
         {
             path: '/admin',
             name: '管理',
             component: page('admin/index')
-                // /option
         },
+        {
+            path: '*',
+            redirect: '/index'
+        }
     ]
 })

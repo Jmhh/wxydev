@@ -12,7 +12,9 @@ function resolve (dir) {
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
-  entry: ['./src/hotcss.js','./src/main.js'],
+  entry: {
+    app: './src/main.js'
+  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
@@ -40,17 +42,7 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: {
-          cssModules: {
-            localIdentName: '[path][name]---[local]---[hash:base64:5]',
-            camelCase: true
-          },
-          extractCSS: true,
-          loaders: {
-            css: 'vue-style-loader!css-loader!px2rem-loader?remUnit=40&remPrecision=8',
-            scss: 'vue-style-loader!css-loader!px2rem-loader?remUnit=40&remPrecision=8!sass-loader'
-          }
-        }
+        options: vueLoaderConfig
       },
       {
         test: /\.js$/,

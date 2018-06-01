@@ -3,7 +3,9 @@
     <div class="admin-siderbar">
         <ul>
             <li>
-                <a href="#"><img src="../images/login/logo.png" alt=""></a>
+                <a href="javascript:void(0)">
+                  <img src="../images/login/logo.png" alt="logo">
+                </a>
             </li>
             <li v-for="item in items" :key="item.name">
                 <router-link :to="item.href">
@@ -21,17 +23,17 @@ export default {
         return {
             items: [
                 {
-                    href: "/",
+                    href: "/index",
                     icon: "iconfont icon-daohang-shouye",
                     name: "首页"
                 },
                 {
-                    href: "school",
+                    href: "/school",
                     icon: "iconfont icon-daohang-xuexiao",
                     name: "学校"
                 },
                 {
-                    href: "admin",
+                    href: "/admin",
                     icon: "iconfont icon-daohang-guanli",
                     name: "管理"
                 }
@@ -43,7 +45,7 @@ export default {
 <style rel='stylesheet/scss' lang='scss' scoped>
 .admin-siderbar {
     width: 80px;
-    height: 100%;
+    height: 100vh;
     min-height: 800px;
     background: #4b83f0;
     border-radius: 20px 0 0 20px;
@@ -68,6 +70,9 @@ export default {
                 }
             }
             a.router-link-exact-active.active {
+                background: #62d862;
+            }
+            a.active {
                 background: #62d862;
             }
             p {

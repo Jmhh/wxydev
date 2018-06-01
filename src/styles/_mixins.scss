@@ -1,6 +1,12 @@
-
 //按钮
-@mixin button($w, $h, $fontSize, $color:#fff, $bgcolor:#4890ea, $radius:5px) {
+@mixin button(
+  $w,
+  $h,
+  $fontSize,
+  $color: #fff,
+  $bgcolor: #4890ea,
+  $radius: 5px
+) {
   display: inline-block;
   width: $w;
   height: $h;
@@ -13,46 +19,48 @@
   border: 1px solid $color;
   border-radius: $radius;
 }
-
-@mixin btn($size:14px,$color:#fff,$bgcolor:#4890ea,$padding:5px,$radius:5px) {
-    padding: $padding;
-    background-color: $bgcolor;
-    border-radius: $radius;
-    border: 1px solid $bgcolor;
-    font-size: $size;
-    color: $color;
-    text-align: center;
-    line-height: 1;
-    display: inline-block;
-    cursor: pointer;
-  }
-
-
-//登录页loading
-@mixin loading-img{
-    -webkit-animation: loading-img 2.5s infinite;
-            animation: loading-img 2.5s infinite;
-    -moz-animation:  loading-img 2.5s infinite;
-    @-webkit-keyframes loading-img {
-        0% {
-        -webkit-transform: scale(1) rotate(0deg) ;
-                transform: scale(1) rotate(0deg) ;
-        }
-        100% {
-        -webkit-transform: scale(0.6) rotate(360deg) ;
-                transform: scale(0.6) rotate(360deg) ;
-        }
-    }
-    @keyframes loading-img {
-        0% {
-        -webkit-transform: scale(1) rotate(0deg) ;
-                transform: scale(1) rotate(0deg) ;
-        }
-        100% {
-        -webkit-transform: scale(0.6) rotate(360deg) ;
-                transform: scale(0.6) rotate(360deg) ;
-        }
-    }
+@mixin btn(
+  $size: 14px,
+  $color: #fff,
+  $bgcolor: #4890ea,
+  $padding: 5px,
+  $radius: 5px
+) {
+  padding: $padding;
+  background-color: $bgcolor;
+  border-radius: $radius;
+  border: 1px solid $bgcolor;
+  font-size: $size;
+  color: $color;
+  text-align: center;
+  line-height: 1;
+  display: inline-block;
+  cursor: pointer;
 }
-
+// 登录页loading
+@mixin loading-img {
+  -webkit-animation: loading-img 2.5s infinite;
+  animation: loading-img 2.5s infinite;
+  -moz-animation: loading-img 2.5s infinite;
+  @-webkit-keyframes loading-img {
+    0% {
+      -webkit-transform: scale(1) rotate(0deg);
+      transform: scale(1) rotate(0deg);
+    }
+    100% {
+      -webkit-transform: scale(0.6) rotate(360deg);
+      transform: scale(0.6) rotate(360deg);
+    }
+  }
+  @keyframes loading-img {
+    0% {
+      -webkit-transform: scale(1) rotate(0deg);
+      transform: scale(1) rotate(0deg);
+    }
+    100% {
+      -webkit-transform: scale(0.6) rotate(360deg);
+      transform: scale(0.6) rotate(360deg);
+    }
+  }
+}
 

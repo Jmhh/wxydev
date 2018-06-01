@@ -1,16 +1,26 @@
 <template>
-    <div class="container">
+    <div class="accounts-container" @click="handleOpen()">
         <span><i class="icon iconfont icon-new" style="color:#fff"></i></span>
-        <p class="add">添加账户</p>
+        <p class="account-add">{{text}}</p>
     </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    text: String
+  },
+  methods: {
+    //打开添加账户弹窗
+    handleOpen() {
+      this.$emit("handleAddAccount");
+    }
+  }
+};
 </script>
 
 <style scoped>
-.container {
+.accounts-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,8 +28,12 @@ export default {};
   height: 28px;
   background: rgba(98, 216, 98, 1);
   border-radius: 14px;
+  cursor: pointer;
 }
-.add {
+.accounts-container span{
+  display: flex;
+}
+.account-add {
   width: 66px;
   height: 16px;
   font-size: 16px;

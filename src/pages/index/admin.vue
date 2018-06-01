@@ -1,44 +1,23 @@
 <!-- 管理端首页 -->
 <template>
-    <div class="layout">
-        <section class="layout-content">
-            <aside>
-                <Sider/>
-            </aside>
-
-            <main>
-                <Header/>
-                <ul class="admin-nav">
-                    <li class="active">
-                        <i class="iconfont icon-fenxi"></i>
-                        <span> 校情分析</span>
-                    </li>
-                    <li>
-                        <router-link to="/">
-                            <i class="iconfont icon-iconset0204"></i>
-                            <span class="color-g"> 设置课程表</span>
-                        </router-link>
-                    </li>
-                </ul>
-                <article class="main">
-                    
-                </article>
-            </main>
-        </section>
-
-    </div>
+    <ul class="admin-nav">
+        <li class="active">
+            <i class="iconfont icon-fenxi"></i>
+            <span> 校情分析</span>
+        </li>
+        <li>
+            <router-link to="/">
+                <i class="iconfont icon-iconset0204"></i>
+                <span class="color-g"> 设置课程表</span>
+            </router-link>
+        </li>
+    </ul>
 </template>
 
 <script>
-import Sider from "components/a-siderbar";
-import Header from "components/header";
 export default {
     data() {
         return {};
-    },
-    components: {
-        Sider,
-        Header
     }
 };
 </script>
@@ -47,9 +26,11 @@ ul.admin-nav {
     display: flex;
     display: -webkit-flex;
     text-align: left;
-    margin: 50px 30px 0 30px;
+    margin: 0px 30px 0 30px;
+    padding-top: 46px;
     list-style: none;
     li {
+        box-sizing: border-box;
         padding: 12px 25px;
         display: flex;
         align-items: center;

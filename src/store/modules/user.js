@@ -2,10 +2,9 @@ import * as Types from "../mutation-types";
 
 const state = {
   login: false,
-  count: 0,
-  token: "",
-  loginCaptcha: "",
-  loginKey: ""
+  token: localStorage.getItem('token'), //用户token
+  loginCaptcha: "", //验证码
+  loginKey: "" //key,由验证码接口获取
 };
 
 const getters = {
@@ -72,6 +71,7 @@ const mutations = {
 
   //初始化token
   [Types.SET_LOGIN_TOKEN](state, data) {
+    localStorage.setItem('token', data)
     state.token = data;
   },
 
