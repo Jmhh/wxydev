@@ -25,7 +25,12 @@ export default {
 
 <style>
 @import 'styles/_reset.scss';
-@import '../src/assets/icon/iconfont.css';
+@import 'http://at.alicdn.com/t/font_675759_ngew0un9725ipb9.css';
+*{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
 #app {
   height: 100vh;
   display: flex;

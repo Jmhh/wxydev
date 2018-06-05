@@ -59,7 +59,7 @@
 
                             <div class="form-group">
                                 <div class="form-group-input">
-                                    <input type="password" v-model.trim="form.password" @blur.prevent="rulesPassword" placeholder="请输入密码">
+                                    <input type="password" v-model.trim="form.passwordUncode" @blur.prevent="rulesPassword" placeholder="请输入密码">
                                     <span class="successInfo" v-show="validate.successPassword">
                                         <i class="iconfont icon-dui1"></i>
                                     </span>
@@ -119,7 +119,9 @@
 
                             </div>
 
-                            <p @click="_updateGetcaptcha" class="tip">看不清，换一张</p>
+                            <p>
+                                <span @click="_updateGetcaptcha" class="tip">看不清，换一张</span>
+                            </p>
 
                             <div class="form-group">
 
@@ -152,7 +154,6 @@
 
 <script>
 import RegisterForm from "./register-form";
-import Button from "components/button";
 import { getCaptcha, getUserLogin, updateGetcaptcha } from "api/user";
 import Encrypt from "utils/encrypt";
 import CryptoJS from "crypto-js";
@@ -160,7 +161,6 @@ import { Notify } from "element-ui";
 
 export default {
     components: {
-        Button,
         RegisterForm
     },
 
@@ -170,7 +170,7 @@ export default {
             base64Url: "",
             form: {
                 username: "13143002525",
-                password: "123456",
+                passwordUncode: "123456",
                 captcha: "",
                 key: "",
                 type: "1"
@@ -209,6 +209,8 @@ export default {
             const that = this,
                 form = this.form;
 
+            form.password = this.form.passwordUncode;
+
             //验证通过执行
             if (this.rulesName() && this.rulesPassword() && this.rulesCode()) {
                 //密码进行加密处理
@@ -219,6 +221,8 @@ export default {
                     key = CryptoJS.enc.Utf8.parse(form.key + form.captcha);
                 password = Encrypt.encryptAes(password, key, key);
                 form.password = password;
+                console.log(form.password);
+                console.log(this.form.passwordUncode);
                 //发送登录请求
                 getUserLogin(form, that);
                 that.loginStatus = "登录中...";
@@ -242,10 +246,7 @@ export default {
 
         //检查名称
         rulesName() {
-            if (
-                this.form.username == "" ||
-                !/^[a-zA-Z0-9_-]{4,16}$/.test(this.form.username)
-            ) {
+            if (this.form.username == "") {
                 this.validate.errorsName = true;
                 this.validate.successName = false;
                 return false;
@@ -258,7 +259,7 @@ export default {
 
         //检查密码
         rulesPassword() {
-            if (this.form.password == "") {
+            if (this.form.passwordUncode == "") {
                 this.validate.errorsPassword = true;
                 this.validate.successPassword = false;
                 return false;
@@ -482,7 +483,7 @@ export default {
                             display: block;
                             width: 285px;
                             padding: 2px 8px;
-                            margin-top: 3px;
+                            margin-top: 0;
                             font-size: 12px;
                             color: #fb0000;
                             background: #fff0f0;
@@ -588,14 +589,19 @@ export default {
                         margin-right: 10px;
                         padding: 5px 0 5px 5px;
                     }
-                    p.tip {
-                        cursor: pointer;
+                    p {
                         text-align: right;
-                        margin-bottom: 20px;
-                        font-size: 12px;
-                        color: #1db4eb;
-                        font-family: MicrosoftYaHei;
+                        margin-bottom: 10px;
+                        span.tip {
+                            cursor: pointer;
+                            text-align: right;
+                            margin: 0 2px 20px 0;
+                            font-size: 12px;
+                            color: #1db4eb;
+                            font-family: MicrosoftYaHei;
+                        }
                     }
+
                     span.verification img {
                         border: 1px solid #ced4da;
                         height: 38px;

@@ -1,7 +1,7 @@
 import * as Types from "../mutation-types";
 
 const state = {
-  login: false,
+  login: localStorage.getItem('login'),
   token: localStorage.getItem('token'), //用户token
   loginCaptcha: "", //验证码
   loginKey: "" //key,由验证码接口获取
@@ -18,8 +18,7 @@ const getters = {
 
   getLoginKey: state => {
     return state.loginKey;
-  },
-
+  }
 };
 
 const actions = {
@@ -28,19 +27,28 @@ const actions = {
   },
 
   //更新验证码
-  updateLoginCaptcha({ commit }, data){
+  updateLoginCaptcha({ commit }, data) {
     commit(Types.UPDATE_LOGIN_CAPTCHA, data);
   },
 
   //更新验证码key
-  updateLoginKey({ commit }, data){
+  updateLoginKey({ commit }, data) {
     commit(Types.UPDATE_LOGIN_KEY, data);
+  },
+
+  //退出登录
+  userLoginOut({ commit }) {
+    commit(Types.SET_USER_LOGINOUT);
+  },
+
+  //设置token
+  setUserToken({ commit }, data){
+    commit(Types.SET_LOGIN_TOKEN);
   }
 };
 
 // mutations
 const mutations = {
-
   [Types.GET_USER_INFO](state, { id }) {
     console.log(2);
   },
@@ -53,7 +61,7 @@ const mutations = {
   [Types.SET_LOGIN_CAPTCHA](state, data) {
     state.loginCaptcha = data;
   },
-  
+
   //更新验证码
   [Types.UPDATE_LOGIN_CAPTCHA](state, data) {
     state.loginCaptcha = data;
@@ -71,10 +79,21 @@ const mutations = {
 
   //初始化token
   [Types.SET_LOGIN_TOKEN](state, data) {
-    localStorage.setItem('token', data)
+    localStorage.setItem('token', data);
     state.token = data;
   },
 
+  //设置用户登录状态
+  [Types.SET_USER_LOGIN](state) {
+    localStorage.setItem('login', 'true');
+    state.login = true;
+  },
+
+  //退出登录
+  [Types.SET_USER_LOGINOUT](state) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('login');
+  }
 };
 
 export default {

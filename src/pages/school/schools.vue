@@ -11,95 +11,96 @@
 
         <div class="schools-wrapper">
             <el-scrollbar view-class="view-box" :native="false">
-                <div v-for="item in schholData" :key="item.id" class="schools-wrapper-item">
-                    <div class="item-header">
-                        <img src="../../images/header/avatar.png" alt="">
-                        <h3>{{item.name}}</h3>
-                    </div>
-                    <div class="item-content">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>学段</th>
-                                    <th>老师人数</th>
-                                    <th>学生人数</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{item.section}}</td>
-                                    <td>{{item.teacherNo}}人</td>
-                                    <td>{{item.studentNo}}人</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="item-footer">
-                        <p>
-                            <i class="iconfont icon-xuesheng"></i> 地址：{{item.address}}</p>
-                               <router-link :to="{ name: '学校内页', params: { id: item.id }}">
-                            <btn class="check"> 立即查看 </btn>
-                        </router-link>
-                    </div>
-                </div>
+
+                <school-item :data="schholData">
+                    <template slot-scope="scope">
+                        <div class="item-header">
+                            <img src="../../images/header/avatar.png" alt="logo">
+                            <h3>{{scope.row.name}}</h3>
+                            <span class="edit-icon" @click="editSchool(scope.row)">
+                                <i class="iconfont icon-bianji2"></i>
+                            </span>
+                        </div>
+                        <div class="item-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>学段</th>
+                                        <th>老师人数</th>
+                                        <th>学生人数</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{scope.row.section}}</td>
+                                        <td>{{scope.row.teacherNo}}人</td>
+                                        <td>{{scope.row.studentNo}}人</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="item-footer">
+                            <p>
+                                <i class="iconfont icon-xuesheng"></i> 地址：{{scope.row.address}}
+                            </p>
+                                <router-link :to="{name: '学校内页', params: {id: scope.row.id }}">
+                                    <button type="button" class="check"> 立即查看 </button>
+                                </router-link>
+                        </div>
+                    </template>
+                </school-item>
+
             </el-scrollbar>
         </div>
 
         <Dialog :show="showAdd" :title="dialogTitle" @on-close="hideDialog('showAdd')">
             <div class="addSchooolFrom">
-                <div class="form-line" :style="{display: flex}">
-                    <span class="form-label">*名称:</span>
-                    <div class="form-input">
-                        <input type="text" v-model="form.name" placeholder="">
-                    </div>
-                    <span class="form-label">学段:</span>
-                    <Select seltext="请选择学段" :list="sectionOptions"></Select>
-                </div>
-                <div class="form-city-pick">
+                <el-form :model="addForm" :rules="rules" label-position="right" :inline="true" ref="addForm" label-width="80px" class="demo-addForm">
                     <div class="form-line">
-                        <span class="form-label">省:</span>
-                        <div class="form-select">
-                            <select v-model="form.section">
-                                <option v-for="option in sectionOptions" v-bind:value="option.value">
-                                    {{ option.value }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <span class="form-label">市:</span>
-                        <div class="form-select">
-                            <select v-model="form.section">
-                                <option v-for="option in sectionOptions" v-bind:value="option.value">
-                                    {{ option.value }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <span class="form-label">区:</span>
-                        <div class="form-select">
-                            <select v-model="form.section">
-                                <option v-for="option in sectionOptions" v-bind:value="option.value">
-                                    {{ option.value }}
-                                </option>
-                            </select>
-                        </div>
+                        <el-form-item label="名字" prop="name">
+                            <el-input v-model="addForm.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="学段">
+                            <el-select v-model="addForm.section" placeholder="请选择学段">
+                                <el-option v-for="(item,index) in sectionOptions" :key="item.name" :label="item.name" :value="item.value"></el-option>
+                            </el-select>
+                        </el-form-item>
                     </div>
-                </div>
-                <div class="form-line-textarea">
-                    <span class="form-label">*地址: </span>
-                    <div class="form-text-area">
-                        <textarea></textarea>
+                    <div class="form-line area">
+                        <el-form-item label="省">
+                            <el-select v-model="addForm.area" placeholder="省">
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="市">
+                            <el-select v-model="addForm.area" placeholder="市">
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="区">
+                            <el-select v-model="addForm.area" placeholder="区">
+                            </el-select>
+                        </el-form-item>
                     </div>
-                </div>
-                <div class="form-line">
-                    <span class="form-label">*状态</span>
-                    <label><input type="radio" value="运行" v-model="form.status">运行</label>
-                    <label><input type="radio" value="关闭" v-model="form.status">关闭</label>
-                </div>
-                <div class="form-footer">
-                    <button type="button" class="add"> 添加 </button>
-                    <button type="button" class="cancel" @click="hideDialog('showAdd')"> 取消 </button>
-                </div>
+
+                    <div class="form-line">
+                        <el-form-item label="地址" prop="address">
+                            <el-input type="textarea" v-model="addForm.address"></el-input>
+                        </el-form-item>
+                    </div>
+
+                    <div class="form-line">
+                        <el-form-item label="状态" prop="status">
+                            <el-radio-group v-model="addForm.status">
+                                <el-radio label="运行" value="1"></el-radio>
+                                <el-radio label="关闭" value="2"></el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </div>
+                    <el-form-item>
+                        <button v-show="addButton" type="button" class="add" @click="submitForm('addForm')"> 添加 </button>
+                        <button v-show="editButton" type="button" class="add" @click="submitForm('addForm')"> 提交修改 </button>
+                        <button type="button" class="cancel" @click="hideDialog('showAdd')"> 取消 </button>
+                    </el-form-item>
+                </el-form>
             </div>
         </Dialog>
 
@@ -107,15 +108,17 @@
 </template>
 
 <script>
-import Btn from "components/button";
-import Dialog from "./dialog";
-import Select from "components/select";
+import Dialog from "./components/dialog";
+import schoolItem from "./components/school-item";
 export default {
     data() {
         return {
-            showAdd: false,
-            dialogTitle: "添加学校",
+            showAdd: false, //弹窗
+            dialogTitle: "添加学校", //弹窗标题
             flex: "flex",
+            addButton: false,
+            editButton: false,
+            editid: "", //编辑id
             schholData: [
                 {
                     id: 1,
@@ -137,7 +140,7 @@ export default {
                 },
                 {
                     id: 3,
-                    name: "珠海市第一中学",
+                    name: "珠海市第二中学",
                     img: "test",
                     section: "初中,高中",
                     teacherNo: 200,
@@ -155,7 +158,7 @@ export default {
                 },
                 {
                     id: 5,
-                    name: "珠海市第一中学",
+                    name: "珠海市第三中学",
                     img: "test",
                     section: "初中,高中",
                     teacherNo: 200,
@@ -213,25 +216,89 @@ export default {
                 { value: 2, name: "初中" },
                 { value: 3, name: "高中" }
             ],
-            form: {
+            addForm: {
                 name: "",
                 section: "",
+                address: "",
                 status: ""
+            },
+            rules: {
+                name: [
+                    {
+                        required: true,
+                        message: "请输入学校名称",
+                        trigger: "blur"
+                    },
+                    {
+                        min: 3,
+                        max: 35,
+                        message: "长度在 3 到 35 个字符",
+                        trigger: "blur"
+                    }
+                ],
+                address: [
+                    {
+                        required: true,
+                        message: "请填写学校地址",
+                        trigger: "blur"
+                    }
+                ],
+                status: [
+                    {
+                        required: true,
+                        message: "请选择学校状态",
+                        trigger: 'change'
+                    }
+                ]
             }
         };
     },
     components: {
         Dialog,
-        Btn,
-        Select
+        schoolItem
     },
     methods: {
+        //操作弹窗
         showDialog(e) {
             this[e] = true;
+            if (this.editid != "") {
+                this.editButton = true;
+                this.addButton = false;
+            } else {
+                this.addButton = true;
+                this.editButton = false;
+            }
         },
         hideDialog(e) {
             this[e] = false;
-            console.log(this[e]);
+            this.editid = ""; 
+            this.addForm.name = "";
+            this.addForm.section = "";
+            this.addForm.address = "";
+            this.addForm.status = "";
+
+        },
+        //提交表单
+        submitForm(formName) {
+            this.$refs[formName].validate(valid => {
+                if (valid) {
+                    this.$message.error('暂时无法提交添加或编辑');
+                } else {
+                    console.log("error submit!!");
+                    return false;
+                }
+            });
+        },
+        //编辑学校
+        editSchool(row) {
+            console.log(row);
+            this.editid = row.id;
+            this.addForm.name = row.name;
+            this.addForm.section = row.section;
+            this.addForm.address = row.address;
+
+            this.dialogTitle = "编辑学校";
+            this.showDialog("showAdd");
         }
     }
 };
@@ -259,23 +326,7 @@ export default {
     overflow: hidden;
     display: flex;
     flex-wrap: wrap;
-    .el-scrollbar {
-        width: 100%;
-        .el-scrollbar__view {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .el-scrollbar__wrap {
-            overflow-x: auto;
-        }
-        .el-scrollbar__bar {
-            z-index: 0;
-        }
-        .el-scrollbar__bar.is-vertical {
-            opacity: 1;
-            background: #edf0f5;
-        }
-    }
+    @include customize-el-scrollbar(4px);
 
     .schools-wrapper-item {
         position: relative;
@@ -307,11 +358,20 @@ export default {
                 height: 55px;
             }
             h3 {
-                margin-left: 55px;
+                margin-left: 35px;
                 font-size: 23px;
                 font-family: PingFang-SC-Bold;
                 color: #a3adbd;
                 line-height: 30px;
+            }
+            span.edit-icon {
+                margin-left: 50px;
+                cursor: pointer;
+                display: none;
+            }
+            span.edit-icon i {
+                font-size: 30px;
+                color: #4b83f0;
             }
         }
         .item-content {
@@ -343,7 +403,7 @@ export default {
                 color: rgba(117, 117, 117, 1);
                 line-height: 30px;
             }
-            .check.button {
+            button.check{
                 float: right;
                 margin-top: 20px;
                 @include button(90px, 28px, 14px, #fff, #c5c9d4, 14px);
@@ -354,6 +414,9 @@ export default {
                 h3 {
                     color: #3a4760;
                 }
+                span.edit-icon {
+                    display: block;
+                }
             }
 
             .item-footer {
@@ -363,7 +426,7 @@ export default {
                 i {
                     color: #4b83f0;
                 }
-                .check.button {
+                button.check {
                     background: #ca9fe8;
                 }
             }
@@ -376,78 +439,8 @@ export default {
 }
 
 .addSchooolFrom {
-    padding: 30px;
-    .form-line {
-        margin-bottom: 30px;
-        text-align: left;
-        .form-label {
-            display: inline-block;
-            width: 50px;
-            margin-right: 12px;
-            text-align: right;
-            font-size: 16px;
-            font-family: PingFang-SC-Bold;
-            color: #4b83f0;
-            line-height: 16px;
-            font-weight: bold;
-        }
-        .form-input {
-            width: 219px;
-            height: 21px;
-            display: inline-block;
-            input {
-                border: 1px solid #e9ebf2;
-                padding: 2px 3px;
-                border-radius: 3px;
-            }
-        }
-        .form-select {
-            display: inline-block;
-            width: 100px;
-            height: 22px;
-            line-height: 22px;
-            select {
-                width: 100px;
-                border: 1px solid #e9ebf2;
-                padding: 2px 3px;
-                border-radius: 3px;
-            }
-        }
-    }
-    .form-line-textarea {
-        margin-bottom: 30px;
-        span.form-label {
-            float: left;
-            display: inline-block;
-            width: 50px;
-            margin-right: 12px;
-            text-align: right;
-            font-size: 16px;
-            font-family: PingFang-SC-Bold;
-            color: #4b83f0;
-            line-height: 16px;
-            font-weight: bold;
-        }
-        .form-text-area {
-            text-align: left;
-            padding-left: 50px;
-            textarea {
-                width: 330px;
-                min-height: 47px;
-                border: 1px solid #e9ebf2;
-                border-radius: 4px;
-            }
-        }
-    }
-    input:focus,
-    textarea:focus,
-    select:focus {
-        outline: none;
-        border: 1px solid #62d862 !important;
-    }
-    .wai-sel {
-        width: 250px;
-    }
+    padding: 10px;
+    @include customize-el-form(); //form样式
     .add,
     .button-add {
         @include button(80px, 26px, 14px, #fff, #778693, 14px);
@@ -457,4 +450,6 @@ export default {
         @include button(80px, 26px, 14px, #fff, #c5c9d4, 14px);
     }
 }
+
+@include customize-el-select(); //select样式
 </style>

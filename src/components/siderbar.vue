@@ -45,7 +45,7 @@ export default {
 <style rel='stylesheet/scss' lang='scss' scoped>
 .admin-siderbar {
     width: 80px;
-    height: 100vh;
+    height: 100%;
     min-height: 800px;
     background: #4b83f0;
     border-radius: 20px 0 0 20px;

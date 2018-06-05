@@ -1,11 +1,10 @@
 <template>
     <div class="wai-sel" v-bind:class="{abclass:adborder}">
         <div class="sel" @click="drop">
-            <span>{{this.seltext===1 ? 'get' : this.seltext===2 ? 'post' : this.seltext===3 ? 'pull' : this.seltext===4 ? 'del' : '请选择'}}</span><i class="icon iconfont icon-zhedie-jian"></i></div>
+            <span>{{seltexts||'请选择'}}</span><i class="icon iconfont icon-xialajiantou"></i></div>
         <div class="menu" v-show="isShow">
             <div class="item" v-for="(item,index) in list" :key="index" @click="pitch(item.name, index+1)" ><span>{{item.name}}</span></div>
         </div>
-        <!-- <div>{{this.seltext || '请选择'}}llll</div> -->
     </div>
 </template>
 <script>

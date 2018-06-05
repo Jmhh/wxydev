@@ -49,7 +49,7 @@
                 </div>
                 <div class="sel_wrap">
                     <span>请选择*：</span>
-                    <Select :seltext="rule.method" :list="list" :style="{width:'100px'}" @handleSelect='handleSelect'></Select>
+                    <Select :seltext="rule.method" :list="list" :style="{width:'100px',marginLeft:'14px'}" @handleSelect='handleSelect'></Select>
                 </div>
                 <div>
                     <span>是否显示*：</span>
@@ -65,7 +65,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
-import { getPermissions, postPermissions, deletePermissions, seePermissions, putPermissions, sortPermissions } from "api/admin.js";
+import { getPermissions, postPermissions, deletePermissions, seePermissions, putPermissions, sortPermissions } from "api/admin/rule.js";
 import Loading from '../../components/loading'
 import Select from '../../components/select'
 export default {
@@ -78,18 +78,6 @@ export default {
             addRule: '',
             addText: '明细 - 添加一级规则',
             isShow: true, //提示：规则限制
-            // rule: {
-            //     path: "",
-            //     name: "",
-            //     method: '',
-            //     status: '',
-            //     pid: '0',
-            //     icon: "flaticon-folder-1",
-            //     isDisplay: 1,
-            //     id: '',
-            //     permission: '',
-            //     sort: '',
-            // },
             name: '', //控制边框
             show: { //控制提示信息
                 isName: false,
@@ -117,7 +105,9 @@ export default {
             arrId: '', //保存选中数据
             dropNodeLabel: '', //序号
             text: '添加',
-            switchText: '添加' //切换 保存跟添加按钮
+            switchText: '添加', //切换 保存跟添加按钮
+            draggingNodeLevel: '', //控制排序
+            dropNodeLevel: '', //控制排序
         }
     },
     computed: {
@@ -244,10 +234,10 @@ export default {
         //添加/删除/编辑菜单规则-一级/子级规则
         handleRightMenu(item) {
             if (item === '添加一级') {
+                this.$set(this.rule, 'icon', 'flaticon-folder-1')
                 this.rule.name = '';
                 this.rule.path = '';
                 this.rule.status = 1;
-                this.rule.icon = 'flaticon-folder-1';
                 this.rule.isDisplay = 1;
                 this.rule.method = '';
                 this.switchText = '添加';
@@ -275,44 +265,76 @@ export default {
                 this.text = '添加';
                 this.switchText = '添加';
                 this.addText = this.addRule;
+            }else {
+                return
             }
         },
         //拖拽
         allowDrop(draggingNode, dropNode, type) {
+            // console.log(draggingNode.level, dropNode.level)
+            this.draggingNodeLevel = draggingNode.level;
+            this.dropNodeLevel = dropNode.level;
             this.contextmenu = false;
-            if (draggingNode.level === 1 && dropNode.level === 1) {
+            if(draggingNode.level === 1 && dropNode.level === 1) {
                 return type !== "inner"
-            } else if (draggingNode.level === 2 && dropNode.level === 2) {
-                return type !== "inner"
-            } else if (draggingNode.level === 3 && dropNode.level === 3) {
-                return false
-            } else if (draggingNode.level > dropNode.level) {
-                return false
-            } else if (draggingNode.level === dropNode.level) {
+            }else if(draggingNode.level === 2 && dropNode.level === 1) {
                 return type === "inner"
-            } else {
-                return false;
+            }else if(draggingNode.level === 2 && dropNode.level === 2) {
+                return type !== "inner"
             }
+            // if (draggingNode.level === 1 && dropNode.level === 1) {
+            //     return type !== "inner"
+            // } else if (draggingNode.level === 2 && dropNode.level === 2) {
+            //     return type !== "inner"
+            // } else if (draggingNode.level === 3 && dropNode.level === 3) {
+            //     return false
+            // } else if (draggingNode.level === 2 && dropNode.level === 1) {
+            //     return type !== "inner"
+            // } else if (draggingNode.level > dropNode.level) {
+            //     return false
+            // } else if (draggingNode.level === dropNode.level) {
+            //     return type === "inner"
+            // } else {
+            //     return false;
+            // }
 
         },
-        handleNodeDrop(draggingNode, dropNode, type, a) {
-            let data = {
-                id: draggingNode.data.id,
-                pid: draggingNode.data.pid,
-                orderJson: []
+        //拖拽完成排序
+        handleNodeDrop(draggingNode, dropNode) {
+            // console.log(draggingNode, dropNode.parent.childNodes )
+            let sort = [];
+            let orderJson = [];
+            let data;
+            dropNode.parent.childNodes.forEach(function (v, i) {
+                sort.push(v.data.sort)
+            });
+            // console.log(draggingNode,dropNode,dropNode.data.id, dropNode.data.pid)
+            sort.sort(function sortNumber(a, b) {
+                return a - b;
+            }).forEach(function (v, i) {
+                orderJson.push({'id': dropNode.parent.childNodes[i].data.id, 'sort': v});
+            });
+            if(this.draggingNodeLevel===1 && this.dropNodeLevel===1) {
+                data = {
+                    id: draggingNode.data.id,
+                    pid: dropNode.data.pid,
+                    orderJson
+                }
+            }else if(this.draggingNodeLevel===2 && this.dropNodeLevel===2) {
+                data = {
+                    id: draggingNode.data.id,
+                    pid: dropNode.data.pid,
+                    orderJson
+                }
+            }else if(this.draggingNodeLevel===2 && this.dropNodeLevel===1) {//跨元素
+                data = {
+                    id: draggingNode.data.id,
+                    pid: dropNode.data.id,
+                    orderJson
+                }
             }
-            dropNode.parent.childNodes.map((t, i) => {
-                console.log(t.data.id, t.data.sort,t.data)
-                data.orderJson.push({id: t.data.id, sort: t.data.sort})
-            })
-            // console.log(draggingNode.data.id,draggingNode.data.pid,'这是父')
-            console.log(draggingNode.data.sort,dropNode.data.sort)
-            data.orderJson.map((t, i) => {
-                
-            })
             data.orderJson = JSON.stringify(data.orderJson);
-            // console.log(data)
-            // sortPermissions(this, data)
+            sortPermissions(this, data)
         },
         //右键菜单
         handleContextmenu(draggingNode, dropNode, dropType, ev) {
@@ -537,7 +559,7 @@ export default {
   display: flex;
 }
 .detail-from span {
-  width: 55px;
+  width: 70px;
   font-size: 16px;
 }
 .detail-from {

@@ -16,7 +16,7 @@
                     <li><i class="iconfont icon-wodetiku"></i>我的题库</li>
                     <li><i class="iconfont icon-xiugaimima"></i>我的备课</li>
                     <li  @click="tadded"><i class="iconfont icon-wodebeike"></i>修改密码</li>
-                    <li><i class="iconfont icon-tuichudenglu"></i>退出登陆</li>
+                    <li @click="loginOut"><i class="iconfont icon-tuichudenglu"></i>退出登陆</li>
                 </ul>
             </div>
         </div>
@@ -26,12 +26,14 @@
 
 <script>
 import changefrom from '../pages/user/change'
+import {getUserLoginOut} from "api/user";
+import {mapActions} from 'vuex'
 export default {
     data() {
         return {
             inlist:false,
             switcher:false,
-            changeview:changefrom
+            changeview:changefrom,
         };
     },
     methods:{
@@ -50,6 +52,13 @@ export default {
            console.log('修改密码')
            this.switcher=false;
        },
+       //退出登录
+       ...mapActions(['userLoginOut']),
+       loginOut(){
+          getUserLoginOut();
+          this.userLoginOut();
+          this.$router.push('/login');
+       }
     },
     components:{
         changefrom
@@ -104,6 +113,7 @@ export default {
         max-width: 220px;
         min-width: 220px;
         background: #fff;
+        z-index: 99;
         ul{
             li{
                 padding:10px 0px;
@@ -115,6 +125,9 @@ export default {
                     margin-right: 15px;
                     color: #FFD16E;
                 }
+            }
+            li:hover{
+                background: #f0f3f6;
             }
         }
     }

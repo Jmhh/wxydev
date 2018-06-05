@@ -31,9 +31,9 @@ export default new Router({
                 path: '',
                 component: page('school/schools'),
             }, {
-                path: '/school/pages/:id',
+                path: '/school/components/pages/:id',
                 name: '学校内页',
-                component: page('school/pages'),
+                component: page('school/components/pages'),
             }]
         },
         {

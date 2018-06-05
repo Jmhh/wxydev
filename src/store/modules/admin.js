@@ -4,6 +4,12 @@ const state = {
     permissionsLoad: false,
     seePermissionsData: [],
     seePermissionsLoad: false,
+    groupedListData: [],
+    groupedListDataPage: [],
+    groupedListLoad: false,
+    seeGroupedData: [],
+    rolePermissionList: [],
+    seeGroupedLoad: false,
 };
 
 const getters = {
@@ -27,9 +33,8 @@ const getters = {
                 val.push(item);
             }
         });
-        console.log(val)
         return val;
-    }
+    },
 };
 
 const actions = {
@@ -47,11 +52,22 @@ const actions = {
     showEditList({ commit }, data) {
         commit(Types.SHOW_SEEPERMISSIONS_LOAD, data);
     },
+    //管理-分组-列表
+    showGroupedList({ commit }, data) {
+        commit(Types.SHOW_GROUPEDLIST_LOAD, data);
+    },
+    //管理-分组-编辑查看
+    seeEditData({ commit }, data) {
+        commit(Types.SHOW_EDIT_LOAD, data);
+    },
+    //管理-分组-编辑查看
+    seeEditLoad({ commit }, data) {
+        commit(Types.GET_EDIT_LOAD, data);
+    },
 };
 
 // mutations
 const mutations = {
-    //管理-规则-菜单/获取
     [Types.GET_PERMISSIONS_MENU](state, data) {
         state.permissionsLoad = true;
     },
@@ -59,14 +75,28 @@ const mutations = {
         state.permissionsData = data
         state.permissionsLoad = false;
     },
-    //管理-规则-菜单/查看
     [Types.GET_SEEPERMISSIONS_MENU](state, data) {
         state.permissionsLoad = true;
     },
     [Types.SHOW_SEEPERMISSIONS_LOAD](state, data) {
-        console.log(data)
         state.seePermissionsData = data
         state.permissionsLoad = false;
+    },
+    [Types.SHOW_GROUPEDLIST_LOAD](state, data) {
+        state.groupedListLoad = true;
+    },
+    [Types.SHOW_GROUPEDLIST_LOAD](state, data) {
+        state.groupedListData = data.data;
+        state.groupedListDataPage = data.page;
+        state.groupedListLoad = false;
+    },
+    [Types.GET_EDIT_LOAD](state, data) {
+        state.seeGroupedLoad = true
+    },
+    [Types.SHOW_EDIT_LOAD](state, data) {
+        state.seeGroupedData = data.role;
+        state.rolePermissionList = data.permissionIds
+        state.seeGroupedLoad = false
     }
 };
 
